@@ -1,0 +1,402 @@
+<title>De lo manual a lo digital</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: blog masthead, then one reading column (~68ch) with callouts, a before/after table, level cards and a full flowchart. */
+:root{
+  --bg:#F2F4F6; --surface:#FFFFFF; --ink:#14212B; --muted:#51606C; --line:#D3DAE0;
+  --accent:#0B5C6B; --accent-ink:#FFFFFF; --mark:#B87A00; --mark-bg:#FBF1D9; --soft:#E3EEF0;
+  --font-display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --font-body:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F171D; --surface:#17222A; --ink:#E6EDF1; --muted:#9AAAB5; --line:#2B3A45;
+    --accent:#5CC0D0; --accent-ink:#0F171D; --mark:#E8B84A; --mark-bg:#2A2412; --soft:#1B2D34; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F171D; --surface:#17222A; --ink:#E6EDF1; --muted:#9AAAB5; --line:#2B3A45;
+  --accent:#5CC0D0; --accent-ink:#0F171D; --mark:#E8B84A; --mark-bg:#2A2412; --soft:#1B2D34; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:18px;line-height:1.7;
+  padding-block:0 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:760px;margin:0 auto}
+.masthead{display:flex;justify-content:space-between;align-items:baseline;gap:8px 16px;flex-wrap:wrap;padding:18px 0;border-bottom:1px solid var(--line)}
+.brand{font-family:var(--font-display);font-weight:800;font-size:20px;letter-spacing:-.01em}
+.brand span{color:var(--accent)}
+.tagline{font-family:var(--font-display);font-size:13px;color:var(--muted)}
+header.post{padding:34px 0 26px;border-bottom:2px solid var(--ink)}
+.cat{display:inline-block;font-family:var(--font-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;background:var(--accent);color:var(--accent-ink);padding:4px 10px;margin:0 0 16px}
+h1{font-family:var(--font-display);font-weight:800;font-size:clamp(32px,6.4vw,50px);line-height:1.06;margin:0 0 16px;text-wrap:balance;letter-spacing:-.02em}
+.lede{font-size:21px;line-height:1.55;color:var(--muted);margin:0 0 20px;max-width:60ch}
+.meta{font-family:var(--font-display);font-size:14px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 18px;margin:0 0 14px}
+.meta b{color:var(--ink);font-weight:700}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin:0}
+.tags span{font-family:var(--font-mono);font-size:12px;color:var(--accent);border:1px solid var(--line);padding:3px 9px;background:var(--surface)}
+.hero-art{display:block;width:100%;max-width:100%;height:auto;margin:26px 0 0}
+.toc{background:var(--surface);border:1px solid var(--line);padding:18px 20px;margin:28px 0 0}
+.toc h2{font-size:14px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 10px;color:var(--muted);font-family:var(--font-display)}
+.toc ol{margin:0;padding-left:26px;columns:2 240px;column-gap:28px}
+.toc li{margin-bottom:5px;font-family:var(--font-display);font-size:15px;break-inside:avoid}
+.toc a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line)}
+.toc a:hover,.toc a:focus-visible{color:var(--accent);border-color:var(--accent);outline:none}
+section{padding-top:48px}
+h2{font-family:var(--font-display);font-weight:800;font-size:clamp(26px,4.8vw,34px);line-height:1.14;margin:0 0 14px;text-wrap:balance;letter-spacing:-.01em;scroll-margin-top:16px}
+h2 .tag{display:block;font-family:var(--font-mono);font-weight:500;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+h3{font-family:var(--font-display);font-weight:700;font-size:20px;margin:28px 0 6px;line-height:1.25}
+p{margin:0 0 16px}
+ul,ol{padding-left:22px;margin:0 0 16px}
+li{margin-bottom:7px}
+.note,.know,.example{padding:14px 18px;margin:22px 0;font-size:16.5px;line-height:1.6}
+.note p,.know p,.example p{margin:0 0 8px}
+.note p:last-child,.know p:last-child,.example p:last-child{margin:0}
+.note{background:var(--mark-bg);border-left:4px solid var(--mark)}
+.know{background:var(--soft);border-left:4px solid var(--accent)}
+.example{background:var(--surface);border:1px dashed var(--accent)}
+.lab{font-family:var(--font-display);font-weight:800;font-size:12px;letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:4px}
+.note .lab{color:var(--mark)}
+.know .lab,.example .lab{color:var(--accent)}
+blockquote{margin:28px 0;padding:4px 0 4px 20px;border-left:4px solid var(--accent);font-family:var(--font-display);font-weight:700;font-size:clamp(21px,4vw,26px);line-height:1.3;text-wrap:balance}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:18px 0}
+.grid2>div{background:var(--surface);border:1px solid var(--line);padding:14px 16px;min-width:0}
+.grid2 h3{margin:0 0 4px;font-size:17px;color:var(--accent)}
+.grid2 p{margin:0;font-size:15.5px;line-height:1.55}
+.grid2.warn>div{border-color:var(--mark)}
+.grid2.warn h3{color:var(--mark)}
+.levels{display:grid;gap:14px;margin:20px 0}
+.level{background:var(--surface);border:1px solid var(--line);display:grid;grid-template-columns:150px 1fr;min-width:0}
+.level .n{font-family:var(--font-display);font-weight:800;font-size:15px;padding:14px 16px;background:var(--soft);color:var(--accent)}
+.level .t{padding:14px 18px;min-width:0}
+.level .t p{margin:0 0 6px;font-size:16px}
+.level .t ul{margin:0;font-size:16px}
+.level .t li{margin-bottom:4px}
+@media (max-width:520px){.level{grid-template-columns:1fr}.level .n{padding:10px 16px}}
+.scroll{overflow-x:auto;margin:18px 0;border:1px solid var(--line);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:15.5px;line-height:1.5}
+th,td{text-align:left;vertical-align:top;padding:10px 14px;border-bottom:1px solid var(--line)}
+th{font-family:var(--font-display);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;background:var(--ink);color:var(--bg);border-bottom:0}
+tr:last-child td{border-bottom:0}
+td:first-child{font-family:var(--font-display);font-weight:700}
+.bodegas{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:18px 0}
+.bodega{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--accent);padding:14px 18px;min-width:0}
+.bodega .lab{color:var(--accent)}
+.bodega h3{margin:0 0 6px;font-size:19px}
+.bodega p{margin:0;font-size:16px;line-height:1.55}
+.steps{counter-reset:s;list-style:none;padding:0;margin:18px 0}
+.steps li{counter-increment:s;position:relative;padding:0 0 14px 46px;margin:0;min-height:36px}
+.steps li::before{content:counter(s);position:absolute;left:0;top:0;width:32px;height:32px;display:grid;place-items:center;background:var(--accent);color:var(--accent-ink);font-family:var(--font-display);font-weight:800;font-size:15px}
+figure{margin:22px 0}
+figcaption{font-family:var(--font-display);font-size:13px;color:var(--muted);margin-top:8px}
+.flow{border:1px solid var(--line);background:var(--surface);padding:14px 8px;overflow-x:auto}
+.flow svg{display:block;width:100%;max-width:430px;height:auto;margin:0 auto}
+.f-box{fill:var(--surface);stroke:var(--ink);stroke-width:1.5}
+.f-key{fill:var(--soft);stroke:var(--accent);stroke-width:1.8}
+.f-t{fill:var(--ink);font-family:var(--font-display);font-size:13px;font-weight:500}
+.f-l{stroke:var(--ink);stroke-width:1.5;fill:none}
+.f-a{fill:var(--ink)}
+.f-bar{fill:var(--accent)}
+.f-ph{fill:var(--accent);font-family:var(--font-mono);font-size:11px;letter-spacing:.06em}
+.voz{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);padding:18px 22px;margin:20px 0}
+.voz p{font-size:18px}
+.voz p:last-child{margin:0}
+.voz .lab{color:var(--accent)}
+.summary{background:var(--ink);color:var(--bg);padding:22px 24px;margin:24px 0}
+.summary h3{margin:0 0 10px;color:var(--bg);font-size:19px}
+.summary ol{margin:0;padding-left:22px}
+.summary li{font-size:16.5px;line-height:1.55}
+.concl{border-top:2px solid var(--ink);margin-top:48px}
+.concl>ol{font-size:17px}
+.refs{font-size:15.5px;padding:0;list-style:none}
+.refs li{padding-left:2.2em;text-indent:-2.2em;margin-bottom:12px;overflow-wrap:anywhere}
+a{color:var(--accent)}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+
+<div class="wrap">
+<div class="masthead">
+  <div class="brand">SIG<span> en la práctica</span></div>
+  <div class="tagline">Sistemas de Información Gerencial</div>
+</div>
+
+<header class="post">
+  <span class="cat">Sistemas de Información Gerencial</span>
+  <h1>De lo manual a lo digital: cómo ZEUS transformó la gestión de alimentos en el Colegio Andino</h1>
+  <p class="lede">Del Kardex y los registros manuales a una sola plataforma que integra compras, inventarios y cocina. Esta entrada explica cómo funciona ZEUS y qué cambió en la toma de decisiones.</p>
+  <p class="meta"><span><b>Por:</b> John Felix Niño Hernández</span><span><b>Módulo:</b> Sistemas Organizacionales y Sistemas de Información Gerencial</span><span><b>Universidad Manuela Beltrán</b></span></p>
+  <p class="tags"><span>#SistemasDeInformación</span><span>#ZEUS</span><span>#Inventarios</span><span>#Compras</span><span>#TomaDeDecisiones</span></p>
+  <svg class="hero-art" viewBox="0 0 720 150" role="img" aria-label="Ilustración del cambio de un registro manual a un sistema digital que conecta compras, almacén y cocina">
+    <rect x="1" y="1" width="718" height="148" fill="var(--soft)" stroke="var(--line)"/>
+    <g font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--muted)">
+      <g transform="translate(40,26)"><rect width="130" height="98" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.5"/><rect x="12" y="14" width="106" height="3" fill="var(--line)"/><rect x="12" y="26" width="106" height="3" fill="var(--line)"/><rect x="12" y="38" width="106" height="3" fill="var(--line)"/><rect x="12" y="50" width="106" height="3" fill="var(--line)"/><text x="12" y="84">KARDEX MANUAL</text></g>
+      <g transform="translate(300,26)"><rect width="120" height="98" fill="var(--accent)" stroke="var(--ink)" stroke-width="1.5"/><text x="60" y="44" text-anchor="middle" font-family="Archivo, Arial, sans-serif" font-weight="800" font-size="22" fill="var(--accent-ink)">ZEUS</text><text x="60" y="64" text-anchor="middle" fill="var(--accent-ink)">UNA PLATAFORMA</text></g>
+      <g transform="translate(550,16)"><rect width="130" height="34" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.5"/><text x="12" y="21">COMPRAS</text></g>
+      <g transform="translate(550,58)"><rect width="130" height="34" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.5"/><text x="12" y="21">ALMACÉN</text></g>
+      <g transform="translate(550,100)"><rect width="130" height="34" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.5"/><text x="12" y="21">COCINA</text></g>
+      <g stroke="var(--ink)" stroke-width="1.5" fill="none"><path d="M174 75h120m-6-5l6 5-6 5"/><path d="M424 75h20V33h100m-6-5l6 5-6 5"/><path d="M444 75h100m-6-5l6 5-6 5"/><path d="M444 75v42h100m-6-5l6 5-6 5"/></g>
+    </g>
+  </svg>
+
+  <nav class="toc" aria-label="Contenido de la entrada">
+    <h2>En esta entrada</h2>
+    <ol>
+      <li><a href="#sig">¿Qué es un Sistema de Información Gerencial?</a></li>
+      <li><a href="#contexto">Contexto organizacional</a></li>
+      <li><a href="#zeus">¿Qué es ZEUS?</a></li>
+      <li><a href="#funcionamiento">Funcionamiento del sistema</a></li>
+      <li><a href="#flujo">Flujo operativo</a></li>
+      <li><a href="#decisiones">Apoyo a la toma de decisiones</a></li>
+      <li><a href="#ventajas">Ventajas</a></li>
+      <li><a href="#desventajas">Desventajas y desafíos</a></li>
+      <li><a href="#importancia">Importancia para la organización</a></li>
+      <li><a href="#aporte">Aporte personal</a></li>
+      <li><a href="#conclusiones">Conclusiones</a></li>
+      <li><a href="#referencias">Referencias</a></li>
+    </ol>
+  </nav>
+</header>
+
+<main>
+<section id="intro">
+  <p>De acuerdo con los conceptos estudiados en el módulo de Sistemas de Información Gerencial, estos sistemas permiten convertir datos en información útil para la toma de decisiones en los niveles operativo, táctico y gerencial. En ese contexto, el sistema ZEUS es una herramienta fundamental para la gestión logística del área de Alimentos, Bebidas y Eventos del Colegio Andino.</p>
+  <p>La implementación de ZEUS permitió pasar de procesos manuales de control a una gestión integrada basada en datos. Eso fortaleció la planificación de compras, el control de inventarios, el seguimiento de costos y la toma de decisiones basada en información confiable.</p>
+</section>
+
+<section id="sig">
+  <h2><span class="tag">Punto 1</span>¿Qué es un Sistema de Información Gerencial?</h2>
+  <p>Un Sistema de Información Gerencial (SIG) es un conjunto de personas, procedimientos, tecnologías y bases de datos que trabajan de manera integrada para recopilar, procesar, almacenar y distribuir información útil para la administración de una organización.</p>
+  <h3>Qué permiten los SIG</h3>
+  <div class="grid2">
+    <div><h3>Planear</h3><p>Apoyan la planeación organizacional.</p></div>
+    <div><h3>Controlar</h3><p>Permiten controlar las operaciones.</p></div>
+    <div><h3>Administrar</h3><p>Ayudan a administrar los recursos.</p></div>
+    <div><h3>Evaluar</h3><p>Facilitan evaluar el desempeño.</p></div>
+    <div><h3>Decidir</h3><p>Facilitan la toma de decisiones.</p></div>
+  </div>
+  <blockquote>El propósito principal de un SIG es dar información confiable, oportuna y relevante para mejorar la eficiencia y cumplir los objetivos de la organización.</blockquote>
+</section>
+
+<section id="contexto">
+  <h2><span class="tag">Punto 2</span>Contexto organizacional</h2>
+  <p>El Colegio Andino cuenta con un área especializada de Alimentos, Bebidas y Eventos. Su trabajo es garantizar el abastecimiento, almacenamiento, preparación y distribución de alimentos para estudiantes, docentes y personal administrativo.</p>
+  <p>Antes de ZEUS, muchos de los controles se hacían con registros manuales y sistemas tipo Kardex. Esos procedimientos daban cierto nivel de control, pero tenían limitaciones importantes:</p>
+  <ul>
+    <li>Mayor tiempo en el procesamiento de información.</li>
+    <li>Riesgo de errores en los registros manuales.</li>
+    <li>Dificultad para proyectar necesidades de compra.</li>
+    <li>Menor capacidad de análisis de costos y consumos.</li>
+    <li>Limitaciones para generar reportes oportunos.</li>
+  </ul>
+  <div class="know">
+    <span class="lab">El punto de partida</span>
+    <p>Ante la necesidad de optimizar los procesos logísticos y mejorar la disponibilidad de información, el colegio implementó ZEUS como herramienta tecnológica de apoyo a la gestión.</p>
+  </div>
+  <h3>Antes y después</h3>
+  <div class="scroll"><table>
+    <thead><tr><th>Aspecto</th><th>Registros manuales y Kardex</th><th>Con ZEUS</th></tr></thead>
+    <tbody>
+      <tr><td>Información</td><td>Mayor tiempo de procesamiento</td><td>Información en tiempo real sobre inventarios, consumos y compras</td></tr>
+      <tr><td>Registros</td><td>Riesgo de errores en los registros manuales</td><td>Control automatizado de inventarios</td></tr>
+      <tr><td>Compras</td><td>Dificultad para proyectar necesidades</td><td>Planeación con históricos de consumo, existencias y menús programados</td></tr>
+      <tr><td>Costos y consumos</td><td>Menor capacidad de análisis</td><td>Seguimiento de costos y consumo teórico mediante la cocina virtual</td></tr>
+      <tr><td>Reportes</td><td>Limitaciones para generar reportes oportunos</td><td>Reportes e indicadores para planear y controlar</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="zeus">
+  <h2><span class="tag">Punto 3</span>¿Qué es ZEUS?</h2>
+  <p>ZEUS es un sistema de gestión empresarial que se usa para administrar y controlar los procesos relacionados con:</p>
+  <div class="grid2">
+    <div><h3>Inventarios</h3><p>Existencias disponibles.</p></div>
+    <div><h3>Compras</h3><p>Planeación y órdenes de compra.</p></div>
+    <div><h3>Proveedores</h3><p>Gestión de los proveedores.</p></div>
+    <div><h3>Requisiciones</h3><p>Pedidos de la cocina al almacén.</p></div>
+    <div><h3>Presupuestos y costos</h3><p>Control presupuestal y seguimiento de costos.</p></div>
+    <div><h3>Consumo de alimentos</h3><p>Registro de lo que se usa en las preparaciones.</p></div>
+  </div>
+  <p>Desde una perspectiva académica, ZEUS cumple las características de un SIG porque captura datos operativos, los procesa y genera información útil para apoyar la toma de decisiones en diferentes niveles de la organización.</p>
+  <div class="know">
+    <span class="lab">Su principal fortaleza</span>
+    <p>Integra en una única plataforma toda la información relacionada con el abastecimiento y el consumo de insumos, lo que facilita el control y el seguimiento de los recursos.</p>
+  </div>
+</section>
+
+<section id="funcionamiento">
+  <h2><span class="tag">Punto 4</span>Funcionamiento del sistema ZEUS</h2>
+  <p>ZEUS integra los procesos de compras, inventarios y producción de alimentos mediante una operación coordinada entre almacén y cocina. Esa operación se desarrolla principalmente a través de dos bodegas.</p>
+  <div class="bodegas">
+    <div class="bodega"><span class="lab">Bodega 1</span><h3>Almacén</h3><p>Es el lugar donde se reciben, almacenan y controlan los productos adquiridos a los proveedores.</p></div>
+    <div class="bodega"><span class="lab">Bodega 2</span><h3>Cocina</h3><p>Es el área donde se preparan los alimentos con los insumos entregados desde el almacén.</p></div>
+  </div>
+
+  <h3>Planeación de compras</h3>
+  <p>Las compras deben hacerse de manera anticipada para garantizar que haya insumos cuando la cocina los requiera. La planeación tiene en cuenta:</p>
+  <ul>
+    <li>Históricos de consumo.</li>
+    <li>Existencias actuales.</li>
+    <li>Menús programados.</li>
+    <li>Necesidades proyectadas.</li>
+    <li>Tiempos de entrega de los proveedores.</li>
+  </ul>
+  <div class="note">
+    <span class="lab">Control interno</span>
+    <p>Las órdenes de compra se revisan y se autorizan antes de enviarse a los proveedores, para cumplir los procedimientos internos de control.</p>
+  </div>
+
+  <h3>Requisiciones y abastecimiento</h3>
+  <p>Cuando se define el menú diario, la cocina genera las requisiciones según las necesidades de producción. Después, el almacén entrega los insumos que se necesitan para preparar los alimentos.</p>
+
+  <h3>Árbol de presentación y fórmulas</h3>
+  <p>ZEUS trabaja con recetas estandarizadas, llamadas árboles de presentación. Cada preparación tiene fórmulas específicas que determinan las cantidades exactas de ingredientes necesarias para elaborar un plato. Así se controlan con precisión los consumos y se mantiene la uniformidad en las preparaciones.</p>
+
+  <h3>Cocina virtual</h3>
+  <p>Al terminar la operación diaria, el sistema ejecuta el proceso llamado <b>cocina virtual</b>. Este proceso registra el consumo teórico de ingredientes de acuerdo con las preparaciones realizadas, y con eso permite:</p>
+  <ul>
+    <li>Actualizar inventarios.</li>
+    <li>Analizar consumos.</li>
+    <li>Identificar variaciones.</li>
+    <li>Determinar necesidades futuras de abastecimiento.</li>
+  </ul>
+</section>
+
+<section id="flujo">
+  <h2><span class="tag">Punto 5</span>Flujo operativo del sistema ZEUS</h2>
+  <p>El diagrama muestra el recorrido completo, desde la planeación de compras hasta la toma de decisiones. Léalo de arriba hacia abajo. La barra de la izquierda indica la fase y las cajas con borde de color marcan los tres momentos de control: la aprobación, la cocina virtual y la decisión final.</p>
+  <figure>
+    <div class="flow">
+    <svg viewBox="0 0 430 870" role="img" aria-label="Diagrama de flujo operativo de ZEUS: de la planeación de compras a la toma de decisiones, en 16 pasos">
+      <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="f-a"/></marker></defs>
+      <rect class="f-bar" x="8" y="10" width="4" height="308"/><text class="f-ph" transform="translate(26,164) rotate(-90)" text-anchor="middle">COMPRAS</text>
+      <rect class="f-bar" x="8" y="334" width="4" height="254"/><text class="f-ph" transform="translate(26,461) rotate(-90)" text-anchor="middle">ALMACÉN Y COCINA</text>
+      <rect class="f-bar" x="8" y="604" width="4" height="254"/><text class="f-ph" transform="translate(26,731) rotate(-90)" text-anchor="middle">CIERRE Y ANÁLISIS</text>
+      <g>
+        <rect class="f-box" x="115" y="10" width="300" height="38"/><text class="f-t" x="265" y="34" text-anchor="middle">Planeación de compras</text>
+        <rect class="f-box" x="115" y="64" width="300" height="38"/><text class="f-t" x="265" y="88" text-anchor="middle">Solicitud interna de compra</text>
+        <rect class="f-key" x="115" y="118" width="300" height="38"/><text class="f-t" x="265" y="142" text-anchor="middle">Aprobación</text>
+        <rect class="f-box" x="115" y="172" width="300" height="38"/><text class="f-t" x="265" y="196" text-anchor="middle">Orden de compra</text>
+        <rect class="f-box" x="115" y="226" width="300" height="38"/><text class="f-t" x="265" y="250" text-anchor="middle">Proveedor</text>
+        <rect class="f-box" x="115" y="280" width="300" height="38"/><text class="f-t" x="265" y="304" text-anchor="middle">Recepción en almacén</text>
+        <rect class="f-box" x="115" y="334" width="300" height="38"/><text class="f-t" x="265" y="358" text-anchor="middle">Inventario disponible</text>
+        <rect class="f-box" x="115" y="388" width="300" height="38"/><text class="f-t" x="265" y="412" text-anchor="middle">Menú diario</text>
+        <rect class="f-box" x="115" y="442" width="300" height="38"/><text class="f-t" x="265" y="466" text-anchor="middle">Requisición de cocina</text>
+        <rect class="f-box" x="115" y="496" width="300" height="38"/><text class="f-t" x="265" y="520" text-anchor="middle">Entrega de insumos</text>
+        <rect class="f-box" x="115" y="550" width="300" height="38"/><text class="f-t" x="265" y="574" text-anchor="middle">Preparación de alimentos</text>
+        <rect class="f-key" x="115" y="604" width="300" height="38"/><text class="f-t" x="265" y="628" text-anchor="middle">Cocina virtual</text>
+        <rect class="f-box" x="115" y="658" width="300" height="38"/><text class="f-t" x="265" y="682" text-anchor="middle">Actualización de inventarios</text>
+        <rect class="f-box" x="115" y="712" width="300" height="38"/><text class="f-t" x="265" y="736" text-anchor="middle">Análisis de existencias</text>
+        <rect class="f-box" x="115" y="766" width="300" height="38"/><text class="f-t" x="265" y="790" text-anchor="middle">Necesidades futuras de compra</text>
+        <rect class="f-key" x="115" y="820" width="300" height="38"/><text class="f-t" x="265" y="844" text-anchor="middle">Toma de decisiones</text>
+      </g>
+      <g class="f-l">
+        <path d="M265 48V62" marker-end="url(#ar)"/><path d="M265 102V116" marker-end="url(#ar)"/><path d="M265 156V170" marker-end="url(#ar)"/>
+        <path d="M265 210V224" marker-end="url(#ar)"/><path d="M265 264V278" marker-end="url(#ar)"/><path d="M265 318V332" marker-end="url(#ar)"/>
+        <path d="M265 372V386" marker-end="url(#ar)"/><path d="M265 426V440" marker-end="url(#ar)"/><path d="M265 480V494" marker-end="url(#ar)"/>
+        <path d="M265 534V548" marker-end="url(#ar)"/><path d="M265 588V602" marker-end="url(#ar)"/><path d="M265 642V656" marker-end="url(#ar)"/>
+        <path d="M265 696V710" marker-end="url(#ar)"/><path d="M265 750V764" marker-end="url(#ar)"/><path d="M265 804V818" marker-end="url(#ar)"/>
+      </g>
+    </svg>
+    </div>
+    <figcaption>Elaboración propia a partir del flujo operativo de ZEUS en el Colegio Andino.</figcaption>
+  </figure>
+</section>
+
+<section id="decisiones">
+  <h2><span class="tag">Punto 6</span>Apoyo a la toma de decisiones</h2>
+  <p>Uno de los principales beneficios de ZEUS es que entrega información útil para decidir en diferentes niveles de la organización.</p>
+  <div class="levels">
+    <div class="level"><div class="n">Nivel operativo</div><div class="t"><p>ZEUS facilita actividades como:</p><ul><li>Registro de inventarios.</li><li>Entradas y salidas de productos.</li><li>Requisiciones.</li><li>Recepción de mercancías.</li><li>Control de consumos.</li></ul></div></div>
+    <div class="level"><div class="n">Nivel táctico</div><div class="t"><p>La información del sistema permite:</p><ul><li>Planificar compras.</li><li>Programar abastecimientos.</li><li>Gestionar proveedores.</li><li>Controlar desperdicios.</li><li>Analizar tendencias de consumo.</li></ul></div></div>
+    <div class="level"><div class="n">Nivel gerencial</div><div class="t"><p>ZEUS aporta información para:</p><ul><li>Control presupuestal.</li><li>Seguimiento de costos.</li><li>Evaluación de indicadores.</li><li>Planeación estratégica.</li><li>Optimización de recursos institucionales.</li></ul></div></div>
+  </div>
+  <blockquote>La información en tiempo real permite fundamentar las decisiones en datos concretos y no solo en estimaciones.</blockquote>
+</section>
+
+<section id="ventajas">
+  <h2><span class="tag">Punto 7</span>Ventajas del sistema ZEUS</h2>
+  <div class="grid2">
+    <div><h3>Información en tiempo real</h3><p>Permite acceder de inmediato a información actualizada sobre inventarios, consumos y compras.</p></div>
+    <div><h3>Trazabilidad</h3><p>Facilita el seguimiento de los productos desde su adquisición hasta su utilización final.</p></div>
+    <div><h3>Mayor control de inventarios</h3><p>Permite conocer con precisión las existencias disponibles en cada momento.</p></div>
+    <div><h3>Optimización de compras</h3><p>Reduce las compras innecesarias y disminuye el riesgo de desabastecimiento.</p></div>
+    <div><h3>Apoyo a la toma de decisiones</h3><p>Genera reportes que facilitan la planeación y el control de recursos.</p></div>
+    <div><h3>Reducción de desperdicios</h3><p>Las recetas estandarizadas permiten aprovechar mejor los insumos y reducen pérdidas.</p></div>
+  </div>
+</section>
+
+<section id="desventajas">
+  <h2><span class="tag">Punto 8</span>Desventajas y desafíos</h2>
+  <p>Ningún sistema es perfecto. Estos son los desafíos que deben tenerse en cuenta al usar ZEUS.</p>
+  <div class="grid2 warn">
+    <div><h3>Dependencia de la calidad de los datos</h3><p>La precisión de los resultados depende directamente de la calidad de la información registrada.</p></div>
+    <div><h3>Curva de aprendizaje</h3><p>Los usuarios necesitan capacitación para usar correctamente todas las funcionalidades del sistema.</p></div>
+    <div><h3>Dependencia tecnológica</h3><p>Eventuales fallas técnicas pueden afectar temporalmente algunos procesos operativos.</p></div>
+    <div><h3>Actualización constante</h3><p>Las fórmulas, los productos y los parámetros deben mantenerse actualizados para garantizar resultados confiables.</p></div>
+  </div>
+</section>
+
+<section id="importancia">
+  <h2><span class="tag">Punto 9</span>Importancia para la organización</h2>
+  <p>ZEUS es una herramienta estratégica para el Colegio Andino porque integra en una sola plataforma la información de compras, inventarios, costos, presupuestos y abastecimiento. Su implementación permitió:</p>
+  <ul>
+    <li>Mejorar la eficiencia operativa.</li>
+    <li>Fortalecer el control presupuestal.</li>
+    <li>Incrementar la trazabilidad de los insumos.</li>
+    <li>Optimizar los procesos logísticos.</li>
+    <li>Facilitar la toma de decisiones basada en datos.</li>
+  </ul>
+  <p>Además, promueve una cultura organizacional orientada al uso de información para la mejora continua de los procesos.</p>
+  <h3>Impacto en la estructura y la cultura organizacional</h3>
+  <p>La implementación de ZEUS también cambió la forma en que las áreas interactúan. La información ya no está dispersa entre registros independientes, sino centralizada en una plataforma común.</p>
+  <p>Eso fortaleció la coordinación entre las áreas de compras, almacén y cocina, mejoró los canales de comunicación y permitió integrar más los procesos. El área de compras también tiene más respaldo para presentar sus necesidades de abastecimiento ante la dirección, porque las decisiones se sustentan en reportes e indicadores del sistema.</p>
+  <div class="know">
+    <span class="lab">El resultado</span>
+    <p>ZEUS contribuyó a fortalecer una cultura organizacional basada en la planeación, el control y el uso eficiente de la información.</p>
+  </div>
+</section>
+
+<section id="aporte">
+  <h2><span class="tag">Punto 10</span>Aporte personal</h2>
+  <div class="voz">
+    <span class="lab">Desde la experiencia</span>
+    <p>Desde mi experiencia como Asistente de Alimentos, Bebidas y Eventos del Colegio Andino, considero que ZEUS ha generado una transformación significativa en la gestión de compras e inventarios.</p>
+    <p>La posibilidad de visualizar consumos, controlar existencias y anticipar necesidades de abastecimiento ha permitido disminuir la incertidumbre en la toma de decisiones. La cocina virtual, las fórmulas estandarizadas y el control automatizado de inventarios han contribuido a mejorar la planificación de recursos y el control de costos.</p>
+    <p>Asimismo, el sistema facilita la comunicación entre almacén y cocina, garantizando que la información fluya de manera organizada y que los recursos estén disponibles cuando se necesitan.</p>
+  </div>
+</section>
+
+<section id="conclusiones" class="concl">
+  <h2><span class="tag">Punto 11</span>Conclusiones</h2>
+  <ol>
+    <li>Los Sistemas de Información Gerencial son herramientas fundamentales para mejorar la eficiencia operativa y fortalecer la toma de decisiones organizacionales.</li>
+    <li>ZEUS integra los procesos de compras, inventarios, abastecimiento y control de costos en una sola plataforma tecnológica, y así optimiza la gestión de recursos.</li>
+    <li>La disponibilidad de información confiable facilita la toma de decisiones en los niveles operativo, táctico y gerencial.</li>
+    <li>La experiencia del Colegio Andino demuestra que la transformación digital puede generar mejoras significativas en el control de inventarios, la optimización de compras y la reducción de desperdicios.</li>
+    <li>El éxito de un SIG depende no solo de la tecnología, sino también de la calidad de los datos, la capacitación de los usuarios y el compromiso institucional con la mejora continua.</li>
+  </ol>
+  <div class="summary">
+    <h3>Ideas clave para llevarse</h3>
+    <ol>
+      <li>Un SIG convierte datos en información útil para decidir.</li>
+      <li>Antes de ZEUS, el control manual y el Kardex tomaban más tiempo y tenían más riesgo de errores.</li>
+      <li>ZEUS une compras, almacén y cocina en una sola plataforma.</li>
+      <li>La cocina virtual registra el consumo teórico y actualiza los inventarios.</li>
+      <li>La calidad de los datos y la capacitación de los usuarios determinan el éxito del sistema.</li>
+    </ol>
+  </div>
+</section>
+
+<section id="referencias">
+  <h2><span class="tag">Fuentes</span>Referencias</h2>
+  <ul class="refs">
+    <li>Laudon, K. C., &amp; Laudon, J. P. (2020). <i>Sistemas de información gerencial</i> (16.ª ed.). Pearson Educación.</li>
+    <li>O'Brien, J. A., &amp; Marakas, G. M. (2011). <i>Sistemas de información gerencial</i> (10.ª ed.). McGraw-Hill Education.</li>
+    <li>Turban, E., Volonino, L., Wood, G., &amp; Sipior, J. (2018). <i>Information technology for management: On-demand strategies for performance, growth and sustainability</i> (11th ed.). Wiley.</li>
+    <li>Universidad Manuela Beltrán. (2026). <i>Módulo de Sistemas Organizacionales y Sistemas de Información Gerencial.</i></li>
+  </ul>
+</section>
+</main>
+</div>
